@@ -1,9 +1,12 @@
 #include <iostream>
-#include "journal/journal.hpp"
+#include "Journal/journal.hpp"
+#include "Core/entry.hpp"
+
 int main()
 {
-    std::cout<<"Hello World"<<std::endl;
-
-    hellowrld();
+    
+    JournalEntry Test(1,"testing",Mood::Happy);
+    
+    Test.display();
     return 0;
 }

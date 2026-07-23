@@ -1,7 +1,15 @@
 #pragma once
+#include "Core/entry.hpp"
+#include <iostream>
 
-void hellowrld();
-class Journal
+enum class Mood {Happy, Neutral, Sad}; //Allows for a user to track their current mood
+class JournalEntry : public Entry
 {
-
-};
+ private:
+    Mood mood;
+    std::string moodToString(Mood m)const; //converts and enum MOOD to a string
+ public:
+    JournalEntry(int id, const std::string& content,Mood mood);
+    Mood getMood() const;
+    void display()const override;
+};    
