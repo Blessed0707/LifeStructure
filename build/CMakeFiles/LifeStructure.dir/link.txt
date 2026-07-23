@@ -1,0 +1,1 @@
+/usr/bin/clang++ -g -arch arm64 -Wl,-search_paths_first -Wl,-headerpad_max_install_names CMakeFiles/LifeStructure.dir/src/entry/entry.cpp.o CMakeFiles/LifeStructure.dir/src/journal/journal.cpp.o CMakeFiles/LifeStructure.dir/src/main.cpp.o -o LifeStructure
