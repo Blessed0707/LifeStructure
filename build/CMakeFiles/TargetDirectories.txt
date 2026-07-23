@@ -1,3 +1,0 @@
-/Users/jrblessed/c++ projects/LifeStructure/build/CMakeFiles/LifeStructure.dir
-/Users/jrblessed/c++ projects/LifeStructure/build/CMakeFiles/edit_cache.dir
-/Users/jrblessed/c++ projects/LifeStructure/build/CMakeFiles/rebuild_cache.dir
