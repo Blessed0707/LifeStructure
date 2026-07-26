@@ -1,6 +1,5 @@
-#include "Core/entry.hpp"
-#include <iostream>
 #include "entry.hpp"
+#include <iostream>
  Entry::Entry(int id, const std::string& content) : 
     id(id), 
     timestamp(std::time(nullptr)),

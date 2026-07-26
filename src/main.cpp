@@ -1,12 +1,16 @@
 #include <iostream>
-#include "Journal/journal.hpp"
-#include "Core/entry.hpp"
+#include "entry.hpp"
+#include "journalEntry.hpp"
+#include "journalContainer.hpp"
+#include "termUI.hpp"
+#include <memory>
 
 int main()
 {
-    
-    JournalEntry Test(1,"testing",Mood::Happy);
-    
-    Test.display();
+
+    TermUI tui(0);
+    tui.addFeature(std::make_unique<JournalContainer>());
+    tui.userInputScanner();
+   
     return 0;
 }

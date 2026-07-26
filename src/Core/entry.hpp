@@ -21,4 +21,5 @@ public:
     virtual void display() const;
     //converts a time_t type timestamp into a human readable time and returns it as a string
     std::string getFormattedTime()const; 
+
 };

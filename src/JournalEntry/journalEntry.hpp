@@ -1,5 +1,7 @@
 #pragma once
-#include "Core/entry.hpp"
+#include "entry.hpp"
+#include "feature.hpp"
+
 #include <iostream>
 
 enum class Mood {Happy, Neutral, Sad}; //Allows for a user to track their current mood

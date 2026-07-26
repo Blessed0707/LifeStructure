@@ -1,4 +1,4 @@
-#include "Journal/journal.hpp"
+#include "journalEntry.hpp"
 #include <iostream>
 
 
@@ -26,9 +26,15 @@ std::string JournalEntry::moodToString(Mood m)const{
 }
 
 void JournalEntry::display()const {
-    std::cout<<"-----Journal Entry #"<<id<< "-----"<<std::endl;
+    std::cout<<"-----Journal Entry #"<<id+1<< "-----"<<std::endl;
     std::cout<<"Time: [ "<<getFormattedTime()<<" ]"<<std::endl;
     std::cout<<"Mood: [ "<<moodToString(mood)<<" ]"<<std::endl;
+    std::cout<<"Entry:\n"<<content<<std::endl;
     std::cout<<"-----Journal Entry End-----"<<std::endl;
 
 }
+
+
+
+
+
