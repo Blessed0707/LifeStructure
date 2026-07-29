@@ -35,6 +35,7 @@ void TermUI::userInputScanner()
             std::cout << "Invalid option.\n";
     }
     //user enters 9
+    std::cout<<std::endl;
     std::cout<<"TerminalUI Exited."<<std::endl;
     std::cout<<std::endl;
 }

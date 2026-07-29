@@ -27,13 +27,43 @@ JournalEntry JournalContainer::createFromUserInput(int id)
 {
     std::string content;
     std::cout<<std::endl;
-    std::cout << "Enter your journal entry: ";
-    std::getline(std::cin, content);
+    std::cout << "Enter your journal entry (Type 'Done' when finished:)"<<std::endl;
+
+    //loop until done typed
+    std::string preFetch = ""; //checks what the user typed
+    int count = 0;
+    int len = 0;
+    while(preFetch != "done" && preFetch !="Done")
+    {
+        std::cout<<">";
+        std::getline(std::cin, preFetch);
+        if(preFetch != "done" && preFetch != "Done")
+        {
+            if(count == 0) 
+            {
+                content+=preFetch;
+                count++;
+                continue;
+            }
+            len += preFetch.length();
+            if(len>15)
+            {
+                content+='\n';
+                len = 0;
+            }
+            else
+            {
+                content+=" ";
+
+            }
+            content+=preFetch;
+        }
+        
+    }
 
     std::cout << "Select your mood:\n";
     std::cout << "1) Happy\n2) Neutral\n3) Sad\n";
     int choice = getValidatedInt("Choice:\n>",1,3);
-   // clears leftover newline so future getline calls work correctly
 
     Mood mood;
     switch (choice) {

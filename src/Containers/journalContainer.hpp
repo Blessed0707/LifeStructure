@@ -3,6 +3,7 @@
 #include "feature.hpp"
 #include "entry.hpp"
 #include "inputUtils.hpp"
+#include <vector>
 
 class JournalContainer: public Feature 
 {
