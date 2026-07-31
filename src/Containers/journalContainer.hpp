@@ -17,6 +17,8 @@ class JournalContainer: public Feature
         
     //journal variables GUI
     char contentBuffer[1024] = "";
+    char contentBuffer2[1024] = "";
+
     int moodChoice = 0; // 0 = Happy, 1 = Neutral, 2 = Sad
 
     bool showEntries = 0;

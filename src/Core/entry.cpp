@@ -15,11 +15,14 @@ std::string Entry::getContent()const
     return content;
 }
 
+//TempUi function
+//Had authority over Temp UI controlls
 void Entry::display() const
 {
     std::cout<<"[Entry #] " <<id<<std::endl;
     std::cout<<content<<std::endl;
 }
+
 std::string Entry::getFormattedTime() const
 {
     std::string timeStr = std::ctime(&timestamp); //converts the time_t to a string readable as a real time value

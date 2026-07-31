@@ -14,7 +14,7 @@ std::vector<JournalEntry> JournalContainer::getEntryCon() const
 int JournalContainer::getBackID() const
 {
     //size of the vector represents the most recent id.
-    return entryContainer.size();
+    return static_cast<int>(entryContainer.size());
 }
 
 
@@ -175,11 +175,22 @@ std::string JournalContainer::name()const
 
 bool JournalContainer::render()
 {
+    ImGui::PushFont(fontTitle);
     ImGui::Text("Welcome to your Journal");
+    ImGui::PopFont();
     ImGui::Separator();
 
+    ImGui::PushFont(fontBody);
     ImGui::Text("Write an Entry");
-    ImGui::InputTextMultiline("<-", contentBuffer, IM_ARRAYSIZE(contentBuffer));
+    ImGui::PopFont();
+
+    std::string journalDescripion = "Write about your day\n";
+    journalDescripion += "Think through problems\n";
+    journalDescripion += "Brainstorm Ideas\n";
+    journalDescripion += "Organize Your Thoughts\n";
+    journalDescripion += "Improve Your Life!";
+
+    ImGui::InputTextMultiline(journalDescripion.c_str(), contentBuffer, IM_ARRAYSIZE(contentBuffer));
 
     ImGui::Separator();
     ImGui::Text("Mood:");

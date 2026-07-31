@@ -37,15 +37,19 @@ GuiApp::GuiApp()
 
     ImGuiStyle& style = ImGui::GetStyle();
 
-    //Font
-    io.Fonts->AddFontFromFileTTF("assets/fonts/Chivo/ttf/Chivo-Light.ttf",16.0f);
+     //Font
+    fontBody = io.Fonts->AddFontFromFileTTF("assets/fonts/Chivo/ttf/Chivo-Regular.ttf",18.0f);
+    fontHeader = io.Fonts->AddFontFromFileTTF("assets/fonts/Chivo/ttf/Chivo-Regular.ttf",28.0f);
+    fontTitle = io.Fonts->AddFontFromFileTTF("assets/fonts/Chivo/ttf/Chivo-Bold.ttf",40.0f);
+
+
 
     // ---- Rounding & spacing ----
     style.WindowRounding    = 8.0f;
     style.FrameRounding     = 7.0f;
     style.GrabRounding      = 6.0f;
     style.WindowPadding     = ImVec2(20, 20);
-    style.FramePadding      = ImVec2(10, 8);
+    style.FramePadding      = ImVec2(12, 10); //Button sizes
     style.ItemSpacing       = ImVec2(10, 10);
 
     // ---- Color palette ----
@@ -80,24 +84,52 @@ GuiApp::~GuiApp()
 
 void GuiApp::addFeature(std::unique_ptr<Feature> feature)
 {
+    feature->setFont(fontBody,fontHeader,fontTitle);
     features.push_back(std::move(feature));
+
 }
 
 void GuiApp::renderMainMenu()
 {
-    ImGui::SetWindowFontScale(1.5f);
 
+
+    ImGui::PushFont(fontTitle);
     const char* title = "LifeStructure";
     float windowWidth = ImGui::GetWindowSize().x;
     float textWidth = ImGui::CalcTextSize(title).x;
-    ImGui::SetCursorPosX((windowWidth - textWidth) * 0.5f);
+    ImGui::SetCursorPosX((windowWidth - textWidth) * 0.5);
     ImGui::Text("%s", title);
-
-    ImGui::SetWindowFontScale(1.0f);
+    ImGui::PopFont();
     ImGui::Separator();
+    ImGui::PushFont(fontHeader);
+    ImGui::Text("Productivity:");
+    ImGui::PopFont();
+
+    /*
+        Underline method
+    */
+    ImVec2 textMin = ImGui::GetItemRectMin();
+    ImVec2 textMax = ImGui::GetItemRectMax();
+
+    ImGui::GetWindowDrawList()->AddLine(
+    ImVec2(textMin.x, textMax.y),
+    ImVec2(textMax.x - 10, textMax.y),
+    ImGui::GetColorU32(ImGuiCol_Text), // matches current text color
+    1.25f // line thickness
+    );
+
+     /*
+        Underline method
+    */
+
 
     for (size_t i = 0; i < features.size(); ++i)
     {
+        if (i > 0)
+        {
+            ImGui::SameLine();
+        }
+
         if (ImGui::Button(features[i]->name().c_str()))
         {
             activeScreen = static_cast<int>(i);

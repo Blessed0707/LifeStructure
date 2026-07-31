@@ -14,6 +14,12 @@ private:
     GLFWwindow* window;
     std::vector<std::unique_ptr<Feature>> features;//Holds pointers to any feature derived class
 
+    
+     //Font
+    ImFont* fontTitle = nullptr;
+    ImFont* fontBody = nullptr;
+    ImFont* fontHeader = nullptr;
+
     /*
         Screen Variables
     */
