@@ -62,10 +62,11 @@ add_executable(LifeStructure ${SOURCE})
 target_include_directories(LifeStructure PRIVATE
     src
     src/Core
-    src/JournalEntry
+    src/Entries
     src/TerminalUI
     src/Containers
     src/Utils
+    src/Gui
     includes
 )
 

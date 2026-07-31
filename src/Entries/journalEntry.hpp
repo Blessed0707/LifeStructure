@@ -9,9 +9,11 @@ class JournalEntry : public Entry
 {
  private:
     Mood mood;
-    std::string moodToString(Mood m)const; //converts and enum MOOD to a string
+
  public:
     JournalEntry(int id, const std::string& content,Mood mood);
+    std::string moodToString(Mood m)const; //converts and enum MOOD to a string
+
     Mood getMood() const;
     void display()const override;
 };    

@@ -103,6 +103,9 @@ void JournalContainer::menu()
     } while (choice != 9);
 }
 
+
+
+
 void JournalContainer::displayEntries()
 {
     //display entry 1;
@@ -162,6 +165,72 @@ void JournalContainer::displayEntries()
         
     }while(i<entryContainer.size()-1);
     
+}
+
+
+std::string JournalContainer::name()const
+{
+    return "Journal";
+}
+
+bool JournalContainer::render()
+{
+    ImGui::Text("Welcome to your Journal");
+    ImGui::Separator();
+
+    ImGui::Text("Write an Entry");
+    ImGui::InputTextMultiline("<-", contentBuffer, IM_ARRAYSIZE(contentBuffer));
+
+    ImGui::Separator();
+    ImGui::Text("Mood:");
+    ImGui::RadioButton("Happy", &moodChoice, 0);
+    ImGui::SameLine();
+    ImGui::RadioButton("Neutral", &moodChoice, 1);
+    ImGui::SameLine();
+    ImGui::RadioButton("Sad", &moodChoice, 2);
+
+    if (ImGui::Button("Save Entry"))
+    {
+        Mood mood = static_cast<Mood>(moodChoice);
+        JournalEntry entry(getBackID(), contentBuffer, mood);
+        addEntry(entry);
+
+        contentBuffer[0] = '\0'; // clear the text box after saving
+    }
+    if (ImGui::Button(showEntries ? "Hide Entries" : "View Entries"))
+    {
+        showEntries = !showEntries;
+    }
+
+    if (showEntries)
+    {
+            // the BeginChild/loop code from before
+        ImGui::Text("Past Entries");
+        ImGui::Separator();
+
+        ImGui::BeginChild("EntryList", ImVec2(0, 300), true); // 0 width = fill available, 300px tall, true = draw a border
+
+        for (const JournalEntry& entry : getEntryCon())
+        {
+            ImGui::Text("Entry #%d", entry.getId() + 1);
+            ImGui::TextWrapped("%s", entry.getContent().c_str()); // wraps long text instead of overflowing sideways
+            ImGui::Text("Mood: %s", entry.moodToString(entry.getMood()).c_str());
+            ImGui::Text("Time: %s", entry.getFormattedTime().c_str());
+            ImGui::Separator();
+        }
+
+        ImGui::EndChild();
+    }
+
+    ImGui::Separator();
+    ImGui::Dummy(ImVec2(0.0f, 50.0f));
+
+    if (ImGui::Button("Back"))
+    {
+        return true; // tell GuiApp the user wants to leave this screen
+    }
+
+    return false; // stay on this screen
 }
 
 
