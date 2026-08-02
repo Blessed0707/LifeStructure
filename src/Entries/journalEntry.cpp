@@ -11,6 +11,7 @@ Mood JournalEntry::getMood()const{
     return mood;
 }
 
+
 std::string JournalEntry::moodToString(Mood m)const{
     switch(m)
     {

@@ -1,16 +1,13 @@
-#include <iostream>
-#include "entry.hpp"
-#include "journalEntry.hpp"
+#include "GuiApp.hpp"
 #include "journalContainer.hpp"
-#include "termUI.hpp"
-#include <memory>
-
+#include "goalContainer.hpp"
 int main()
 {
+    GuiApp app;
+    app.addFeature(std::make_unique<JournalContainer>());
+    app.addFeature(std::make_unique<GoalContainer>());
 
-    TermUI tui(0);
-    tui.addFeature(std::make_unique<JournalContainer>());
-    tui.userInputScanner();
-   
+    app.run();
+
     return 0;
 }
