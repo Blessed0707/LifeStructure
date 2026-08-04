@@ -19,6 +19,8 @@ class JournalEntry : public Entry
     std::string moodToString(Mood m)const; //converts and enum MOOD to a string
 
     Mood getMood() const;
+    std::string getTime()const {return time;}
+
 
     //Terminal UI Function, controlls Termonal UI configs
     void display()const override;

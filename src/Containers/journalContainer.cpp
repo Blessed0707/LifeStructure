@@ -5,7 +5,7 @@ std::vector<JournalEntry> JournalContainer::getEntryCon() const
     return entryContainer;
 }
 
-int JournalContainer::getBackID() const
+int JournalContainer::getEntryConSize() const
 {
     //size of the vector represents the most recent id.
     return static_cast<int>(entryContainer.size());
@@ -99,7 +99,7 @@ void JournalContainer::menu()
 
         if (choice == 1)
         {
-            JournalEntry entry = createFromUserInput(getBackID());
+            JournalEntry entry = createFromUserInput(getEntryConSize());
             addEntry(entry);
         }
         else if (choice == 2)
@@ -110,7 +110,15 @@ void JournalContainer::menu()
     } while (choice != 9);
 }
 
+bool JournalContainer::loadStorage()
+{
+    if(storage.loadContainer(entryContainer))
+    {
+        return true;
+    }
+    return false;
 
+}
 
 
 void JournalContainer::displayEntries()
@@ -159,7 +167,7 @@ void JournalContainer::displayEntries()
         }
         else if (userInput == 2)
         {
-            JournalEntry entry = createFromUserInput(getBackID());
+            JournalEntry entry = createFromUserInput(getEntryConSize());
             addEntry(entry);
         }
         else if (userInput == 5)
@@ -210,7 +218,7 @@ bool JournalContainer::render()
     if (ImGui::Button("Save Entry"))
     {
         Mood mood = static_cast<Mood>(moodChoice);
-        JournalEntry entry(getBackID(), contentBuffer, mood,entry.getFormattedTime());
+        JournalEntry entry(getEntryConSize(), contentBuffer, mood,entry.getFormattedTime());
         addEntry(entry);
         saveEntry(entry);
 
@@ -234,7 +242,7 @@ bool JournalContainer::render()
             ImGui::Text("Entry #%d", entry.getId() + 1);
             ImGui::TextWrapped("%s", entry.getContent().c_str()); // wraps long text instead of overflowing sideways
             ImGui::Text("Mood: %s", entry.moodToString(entry.getMood()).c_str());
-            ImGui::Text("Time: %s", entry.getFormattedTime().c_str());
+            ImGui::Text("Time: %s", entry.getTime().c_str());
             ImGui::Separator();
         }
 

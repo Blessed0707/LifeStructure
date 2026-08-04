@@ -27,6 +27,15 @@ bool GoalContainer::saveEntry(GoalEntry& entry)
     }
 }
 
+bool GoalContainer::loadStorage()
+{
+    if(storage.loadContainer(entryContainer))
+    {
+        return true;
+    }
+    return false;
+}
+
 std::vector<GoalEntry> &GoalContainer::getEntryCon()
 {
     return entryContainer;
@@ -79,7 +88,7 @@ bool GoalContainer::render()
 
     if (ImGui::Button("Save Entry"))
     {
-        GoalEntry entry(getBackID(), contentBuffer);
+        GoalEntry entry(getBackID(), contentBuffer,entry.getFormattedTime());
         addEntry(entry);//add the entry to the vector
         saveEntry(entry);//save the entry to the db
         contentBuffer[0] = '\0'; // clear the text box after saving
@@ -103,11 +112,36 @@ bool GoalContainer::render()
         {
             ImGui::Text("Goal #%d", entry.getId() + 1);
             ImGui::TextWrapped("%s", entry.getContent().c_str()); // wraps long text instead of overflowing sideways
-            ImGui::Text("Time: %s", entry.getFormattedTime().c_str());
+            ImGui::Text("Time: %s", entry.getTime().c_str());
             ImGui::Separator();
         }
 
         ImGui::EndChild();
+    }
+
+    if(ImGui::Button("Delete Entry"))
+    {
+        showDeleteMenu = !showDeleteMenu;
+    }
+
+    if(showDeleteMenu)
+    {
+        // ImGui::Text("Enter the ID of the goal to delete:");
+        // ImGui::InputInt("Goal ID", &deleteIdInput);
+
+        // if(ImGui::Button("Confirm Delete"))
+        // {
+        //     if(removeEntry(deleteIdInput))
+        //     {
+        //         storage.deleteByID(deleteIdInput);
+        //     }
+        //     showDeleteMenu = false;
+        // }
+        // ImGui::SameLine();
+        // if(ImGui::Button("Cancel"))
+        // {
+        //     showDeleteMenu = false;
+        // }
     }
 
     //space before back

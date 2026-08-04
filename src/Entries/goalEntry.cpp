@@ -1,7 +1,8 @@
 #include "goalEntry.hpp"
 
-GoalEntry::GoalEntry(int id, const std::string &content):
-Entry(id,content)
+GoalEntry::GoalEntry(int id, const std::string &content, const std::string& time):
+Entry(id,content),
+time(time)
 {
 }
 

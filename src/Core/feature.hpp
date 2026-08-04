@@ -26,6 +26,11 @@ public:
     //GUI Rendering Configurations
     virtual bool render() = 0;
 
+    virtual bool loadStorage()
+    {
+        return false;
+    }
+
     //called in GuiApp addFeature()
     //Allows for fonts to be used in all features
     void setFont(ImFont* body,ImFont* header,ImFont* title)

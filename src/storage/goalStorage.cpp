@@ -46,13 +46,13 @@ bool GoalStorage::deleteByID(int id)
             return false;
         }
         std::cout << "Successfully deleted note ID " << id << ".\n";
-        return true;
     }
     catch(const std::exception& e)
     {
         std::cerr << e.what() << '\n';
         return false;
     }
+    return true;
     
 }
 
@@ -66,10 +66,12 @@ bool GoalStorage::loadContainer(std::vector<GoalEntry> &container)
         {
             // pull each column out — column order/names must match your table schema
             int id = query.getColumn(0);
+            id -=1;
             std::string content = query.getColumn(1);
+            std::string time = query.getColumn(2);
             // ... whatever other columns GoalEntry needs
 
-            container.emplace_back(id, content);
+            container.emplace_back(id, content,time);
         }
 
         return true;

@@ -11,6 +11,14 @@
 #include <GLFW/glfw3.h>
 
 #include "goalStorage.hpp"
+
+/*
+    The GoalContainer class handles:
+    GoalStorage use and access (Goals sql table)
+    holding goalEntrys through entryContainer vector
+    handling GUI implementation.
+    TermUI implementation
+*/
 class GoalContainer: public Feature
 {
 public:
@@ -27,15 +35,18 @@ public:
     bool render()override;
     //saves entry to the db storage.
     bool saveEntry(GoalEntry& entry);
+    bool loadStorage()override;
+
 
 private:
     std::vector<GoalEntry> entryContainer;
-    GoalStorage storage;
+    GoalStorage& storage;
     //journal variables GUI
     char contentBuffer[1024] = "";
     char contentBuffer2[1024] = "";
 
     bool showEntries = false;
+    bool showDeleteMenu = false;
 
 
 

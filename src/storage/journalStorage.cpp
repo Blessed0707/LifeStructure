@@ -31,7 +31,32 @@ bool JournalStorage::addEntry(JournalEntry &entry)
 
 void JournalStorage::deleteEntries()
 {
-    dbRef.exec("DELETE FROM" + tableName);
+    dbRef.exec("DELETE FROM " + tableName);
+}
+
+bool JournalStorage::deleteByID(int id)
+{
+    try
+    {
+        std::string prepStatement = "DELETE FROM " + tableName + " WHERE id = ?";
+        SQLite::Statement query(dbRef,prepStatement);
+        query.bind(1,id);
+        int numRowsDeleted = query.exec();
+
+        if(numRowsDeleted == 0)
+        {
+            std::cout<<"No row found with ID: "<< id << std::endl;
+            return false;
+        }
+        std::cout << "Successfully deleted note ID " << id << ".\n";
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+        return false;
+    }
+    return true;
+
 }
 
 bool JournalStorage::loadContainer(std::vector<JournalEntry> &container)
@@ -42,7 +67,8 @@ bool JournalStorage::loadContainer(std::vector<JournalEntry> &container)
 
         while (query.executeStep())
         {
-            int id = query.getColumn(0);
+            int id = (query.getColumn(0));
+            id-=1;//subtract 1 to keep the index and ids aligned index = id -1;
             std::string content = query.getColumn(1);
             std::string mood = query.getColumn(2);
             std::string time = query.getColumn(3);

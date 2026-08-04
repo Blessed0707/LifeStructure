@@ -131,8 +131,11 @@ void GuiApp::renderMainMenu()
         }
 
         if (ImGui::Button(features[i]->name().c_str()))
+            
         {
+            features[i]->loadStorage();
             activeScreen = static_cast<int>(i);
+
         }
     }
 }
