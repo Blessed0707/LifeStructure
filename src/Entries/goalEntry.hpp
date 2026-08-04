@@ -12,8 +12,9 @@ public:
 
 
     void addName(char* name);
-    
+
     std::string getName()const;
+    const std::string& getContent()const {return content;}
 private:
     std::string goalName;
 

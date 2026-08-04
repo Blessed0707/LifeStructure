@@ -4,6 +4,8 @@
 #include "backends/imgui_impl_opengl3.h"
 #include <GLFW/glfw3.h>
 #include <string>
+#include <SQLiteCpp/SQLiteCpp.h>
+
 class Feature
 {
 protected:
@@ -11,7 +13,7 @@ protected:
     ImFont* fontTitle = nullptr;
     ImFont* fontBody = nullptr;
     ImFont* fontHeader = nullptr;
-    
+
 public:
     virtual ~Feature() = default;
 

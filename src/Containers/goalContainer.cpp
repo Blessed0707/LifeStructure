@@ -15,7 +15,7 @@ void GoalContainer::addEntry(const GoalEntry &entry)
     entryContainer.push_back(entry);
 }
 
-const std::vector<GoalEntry> &GoalContainer::getEntryCon()
+std::vector<GoalEntry> &GoalContainer::getEntryCon()
 {
     return entryContainer;
 }

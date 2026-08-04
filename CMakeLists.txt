@@ -4,10 +4,22 @@ project(LifeStructure)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-# ============================================================
-# NEW: Pull in GLFW and Dear ImGui as dependencies
-# ============================================================
 include(FetchContent)
+
+# ============================================================
+# NEW: Pull in SQLiteCpp for database storage
+# ============================================================
+FetchContent_Declare(
+    SQLiteCpp
+    GIT_REPOSITORY https://github.com/SRombauts/SQLiteCpp.git
+    GIT_TAG 3.3.1
+)
+FetchContent_MakeAvailable(SQLiteCpp)
+
+
+# ============================================================
+# Pull in GLFW and Dear ImGui as dependencies
+# ============================================================
 
 FetchContent_Declare(
     glfw
@@ -67,10 +79,35 @@ target_include_directories(LifeStructure PRIVATE
     src/Containers
     src/Utils
     src/Gui
+    src/storage
+    includes
+)
+# NEW: a copy of SOURCE with main.cpp excluded, just for tests
+set(TEST_APP_SOURCES ${SOURCE})
+list(REMOVE_ITEM TEST_APP_SOURCES "${CMAKE_SOURCE_DIR}/src/main.cpp")
+
+file(GLOB_RECURSE TESTS "tests/*.cpp")
+
+add_executable(TestSuite ${TEST_APP_SOURCES} ${TESTS})
+
+# Where to find headers
+target_include_directories(TestSuite PRIVATE
+    src
+    src/Core
+    src/Entries
+    src/TerminalUI
+    src/Containers
+    src/Utils
+    src/Gui
+    src/storage
     includes
 )
 
+# Copy assets folder into the build directory so relative paths resolve correctly
+file(COPY ${CMAKE_SOURCE_DIR}/assets DESTINATION ${CMAKE_BINARY_DIR})
+
+target_link_libraries(TestSuite PRIVATE imgui OpenGL::GL SQLiteCpp)
 # ============================================================
 # NEW: link ImGui + OpenGL into your existing executable
 # ============================================================
-target_link_libraries(LifeStructure PRIVATE imgui OpenGL::GL)
+target_link_libraries(LifeStructure PRIVATE imgui OpenGL::GL SQLiteCpp)

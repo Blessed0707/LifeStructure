@@ -17,10 +17,11 @@ public:
 
     std::string name()const override;
     void addEntry(const GoalEntry& entry);
-    const std::vector<GoalEntry>& getEntryCon();
+    std::vector<GoalEntry>& getEntryCon();
     int getBackID()const;
     bool removeEntry(int id);
     bool render()override;
+
 
 private:
     std::vector<GoalEntry> entryContainer;
