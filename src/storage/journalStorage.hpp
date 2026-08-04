@@ -3,9 +3,12 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include "goalEntry.hpp"
+#include "journalEntry.hpp"
 
-class GoalStorage
+enum class Mood2 {Happy, Neutral, Sad}; //Allows for a user to track their current mood
+
+
+class JournalStorage
 {
 
 private:
@@ -14,20 +17,23 @@ private:
     SQLite::Database& dbRef;
 public:
     //Creates the Goals table
-    GoalStorage(SQLite::Database& db): tableName("Goals"),dbRef(db)
+    JournalStorage(SQLite::Database& db): tableName("Journal"),dbRef(db)
     {
         std::string prepStatement = "CREATE TABLE IF NOT EXISTS " + tableName + "( id INTEGER PRIMARY KEY, ";
-        prepStatement +="content TEXT, time TEXT)";
+        prepStatement +="content TEXT,mood TEXT, time TEXT)";
         dbRef.exec(prepStatement);
         std::cout<<"Table "<<tableName<<" initialized."<<std::endl;
     }
 
-    bool addGoal(GoalEntry& entry);
+    //adds a journal entry to the db table
+    bool addEntry(JournalEntry& entry);
+    //deleted all entries in the table
     void deleteEntries();
+
     bool deleteByID(int id);
 
 
-    bool loadContainer(std::vector<GoalEntry>& container);
+    bool loadContainer(std::vector<JournalEntry>& container);
 
 
 

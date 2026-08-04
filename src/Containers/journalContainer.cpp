@@ -1,11 +1,5 @@
 #include "journalContainer.hpp"
 
-JournalContainer::JournalContainer()
-{
-
-}
-
-
 std::vector<JournalEntry> JournalContainer::getEntryCon() const
 {
     return entryContainer;
@@ -21,6 +15,18 @@ int JournalContainer::getBackID() const
 void JournalContainer::addEntry(const JournalEntry &jEntry)
 {
     entryContainer.push_back(jEntry);    
+}
+
+bool JournalContainer::saveEntry(JournalEntry& entry)
+{
+    if(storage.addEntry(entry))
+    {
+        return true;
+    }
+    else{
+        return false;
+
+    }
 }
 
 JournalEntry JournalContainer::createFromUserInput(int id)
@@ -72,8 +78,9 @@ JournalEntry JournalContainer::createFromUserInput(int id)
         case 3: mood = Mood::Sad; break;
         default: mood = Mood::Neutral; break; // fallback if they type something invalid
     }
-
-    return JournalEntry(id, content, mood);
+    Entry temp;
+    std::string time = temp.getFormattedTime();
+    return JournalEntry(id, content, mood,time);
 }
 
 
@@ -203,8 +210,9 @@ bool JournalContainer::render()
     if (ImGui::Button("Save Entry"))
     {
         Mood mood = static_cast<Mood>(moodChoice);
-        JournalEntry entry(getBackID(), contentBuffer, mood);
+        JournalEntry entry(getBackID(), contentBuffer, mood,entry.getFormattedTime());
         addEntry(entry);
+        saveEntry(entry);
 
         contentBuffer[0] = '\0'; // clear the text box after saving
     }
@@ -243,5 +251,7 @@ bool JournalContainer::render()
 
     return false; // stay on this screen
 }
+
+
 
 

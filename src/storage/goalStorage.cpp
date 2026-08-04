@@ -1,20 +1,29 @@
 #include "goalStorage.hpp"
 
-void GoalStorage::addGoal(GoalEntry& entry)
+bool GoalStorage::addGoal(GoalEntry& entry)
 {
     try
     {
-        std::string prepStatement;
-        prepStatement+="INSERT INTO " + tableName + " (content) VALUES (?)";
-        SQLite::Statement insert(dbRef, prepStatement);
+        std::string prepStatement = "INSERT INTO " + tableName + " (content,time) VALUES (?,?)";
+        SQLite::Statement insert(dbRef,prepStatement);
         insert.bind(1,entry.getContent());
-        insert.exec();
+        insert.bind(2,entry.getFormattedTime());
+        int rowsAltered = insert.exec();
+
+        if(rowsAltered == 0)
+        {
+            std::cout<<"Entry Save Failed."<<std::endl;
+            return false;
+            
+        }
     }
     catch (const std::exception& e) 
     {
         // The program skips the exec() return and lands here
         std::cerr << "The query failed! Error: " << e.what() << std::endl;
+        return false;
     }
+    return true;
 }
 //Deletes all entries from the table
 void GoalStorage::deleteEntries()

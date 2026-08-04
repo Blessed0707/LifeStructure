@@ -15,6 +15,18 @@ void GoalContainer::addEntry(const GoalEntry &entry)
     entryContainer.push_back(entry);
 }
 
+bool GoalContainer::saveEntry(GoalEntry& entry)
+{
+    if(storage.addGoal(entry))
+    {
+        return true;
+    }
+    else{
+        return false;
+
+    }
+}
+
 std::vector<GoalEntry> &GoalContainer::getEntryCon()
 {
     return entryContainer;
@@ -68,8 +80,8 @@ bool GoalContainer::render()
     if (ImGui::Button("Save Entry"))
     {
         GoalEntry entry(getBackID(), contentBuffer);
-        addEntry(entry);
-
+        addEntry(entry);//add the entry to the vector
+        saveEntry(entry);//save the entry to the db
         contentBuffer[0] = '\0'; // clear the text box after saving
     }
 

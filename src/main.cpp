@@ -3,11 +3,11 @@
 #include "goalContainer.hpp"
 int main()
 {
-    GuiApp app;
-    app.addFeature(std::make_unique<JournalContainer>());
-    app.addFeature(std::make_unique<GoalContainer>());
+    // GuiApp app;
+    // app.addFeature(std::make_unique<JournalContainer>());
+    // app.addFeature(std::make_unique<GoalContainer>());
 
-    app.run();
+    // app.run();
 
     return 0;
 }

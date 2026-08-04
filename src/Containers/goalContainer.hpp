@@ -10,10 +10,14 @@
 #include "backends/imgui_impl_opengl3.h"
 #include <GLFW/glfw3.h>
 
+#include "goalStorage.hpp"
 class GoalContainer: public Feature
 {
 public:
-    GoalContainer() = default;
+    GoalContainer(GoalStorage& store) : storage(store)
+    {
+
+    }
 
     std::string name()const override;
     void addEntry(const GoalEntry& entry);
@@ -21,10 +25,12 @@ public:
     int getBackID()const;
     bool removeEntry(int id);
     bool render()override;
-
+    //saves entry to the db storage.
+    bool saveEntry(GoalEntry& entry);
 
 private:
     std::vector<GoalEntry> entryContainer;
+    GoalStorage storage;
     //journal variables GUI
     char contentBuffer[1024] = "";
     char contentBuffer2[1024] = "";

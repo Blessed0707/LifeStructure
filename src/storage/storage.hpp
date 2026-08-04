@@ -5,7 +5,7 @@
 
 
 //storage class will hold the database
-//and controll access to it
+//and control access to it
 class Storage
 {
 private:

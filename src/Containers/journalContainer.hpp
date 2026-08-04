@@ -9,11 +9,13 @@
 #include "backends/imgui_impl_glfw.h"
 #include "backends/imgui_impl_opengl3.h"
 #include <GLFW/glfw3.h>
+#include "journalStorage.hpp"
 
 class JournalContainer: public Feature 
 {
  private:
     std::vector<JournalEntry> entryContainer;
+    JournalStorage storage;
         
     //journal variables GUI
     char contentBuffer[1024] = "";
@@ -24,11 +26,14 @@ class JournalContainer: public Feature
     bool showEntries = 0;
 
 public:
-   JournalContainer();
+    JournalContainer(JournalStorage& store) : storage(store)
+    {
+
+    }
 
    //takes a journal entry and adds it do the entryContainer vector.
    void addEntry(const JournalEntry&jEntry);
-
+   bool saveEntry(JournalEntry& entry);
    //returns the entryContainer
    std::vector<JournalEntry> getEntryCon()const;
 
@@ -41,6 +46,8 @@ public:
    //GUI
    std::string name()const override;
    bool render() override;
+
+   
 
 };
 
