@@ -1,29 +1,25 @@
 #pragma once
 #include "entry.hpp"
-#include "feature.hpp"
+#include <string>
 
-#include <iostream>
+enum class Mood { Happy, Neutral, Sad }; //Allows a user to track their current mood
 
-enum class Mood {Happy, Neutral, Sad}; //Allows for a user to track their current mood
+//Free functions: converting a Mood to and from text is a value in, value out
+//operation, so it does not need to be a member of anything.
+std::string moodToString(Mood m);
+Mood stringToMood(const std::string& mood);
 
-
-class JournalEntry : public Entry
+/*
+    JournalEntry
+    Plain data: the text, the mood, and when it was written.
+*/
+struct JournalEntry : Entry
 {
+    Mood mood = Mood::Neutral;
 
- private:
-    Mood mood;
-    std::string time;
+    JournalEntry() = default;
+    JournalEntry(int id, std::string content, Mood mood, std::string time);
 
- public:
-    JournalEntry(int id, const std::string& content,Mood mood,std::string time);
-    std::string moodToString(Mood m)const; //converts and enum MOOD to a string
-
-    Mood getMood() const;
-    std::string getTime()const {return time;}
-
-
-    //Terminal UI Function, controlls Termonal UI configs
-    void display()const override;
-};    
-
-    Mood stringToMood(std::string& mood);
+    //Terminal UI display
+    void display() const;
+};

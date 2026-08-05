@@ -1,31 +1,8 @@
 #include "entry.hpp"
-#include <iostream>
- Entry::Entry(int id, const std::string& content) : 
-    id(id), 
-    timestamp(std::time(nullptr)),
-    content(content) {}
+#include <utility>
 
-int Entry::getId() const
-{
-    return id;
-}
-
-std::string Entry::getContent()const
-{
-    return content;
-}
-
-//TempUi function
-//Had authority over Temp UI controlls
-void Entry::display() const
-{
-    std::cout<<"[Entry #] " <<id<<std::endl;
-    std::cout<<content<<std::endl;
-}
-
-std::string Entry::getFormattedTime() const
-{
-    std::string timeStr = std::ctime(&timestamp); //converts the time_t to a string readable as a real time value
-    timeStr.pop_back(); //remove newline
-    return timeStr;
-}
+Entry::Entry(int id, std::string content, std::string time):
+    id(id),
+    content(std::move(content)),
+    time(std::move(time))
+{}

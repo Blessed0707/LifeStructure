@@ -1,68 +1,50 @@
 #include "journalEntry.hpp"
 #include <iostream>
+#include <utility>
 
-
-JournalEntry::JournalEntry(int id, const std::string& content,Mood mood,std::string time):
-Entry(id,content),
-mood(mood),
-time(time)
+JournalEntry::JournalEntry(int id, std::string content, Mood mood, std::string time):
+    Entry(id, std::move(content), std::move(time)),
+    mood(mood)
 {}
 
-
-
-Mood JournalEntry::getMood()const{
-    return mood;
-}
-
-
-std::string JournalEntry::moodToString(Mood m)const{
-    switch(m)
-    {
-        case Mood::Happy:
-            return "Happy";
-        case Mood::Neutral:
-            return "Neutral";
-        case Mood::Sad:
-            return "Sad";
-        default:
-            return "Unknown";
-    }
-}
-
-void JournalEntry::display()const {
-    std::cout<<"-----Journal Entry #"<<id+1<< "-----"<<std::endl;
-    std::cout<<"Time: [ "<<getFormattedTime()<<" ]"<<std::endl;
-    std::cout<<"Mood: [ "<<moodToString(mood)<<" ]"<<std::endl;
-    std::cout<<"Entry:\n"<<content<<std::endl;
-    std::cout<<"-----Journal Entry End-----"<<std::endl;
-
-}
-
-
-
-Mood stringToMood(std::string &mood)
+std::string moodToString(Mood m)
 {
-    if(mood == "Happy")
+    switch (m)
+    {
+        case Mood::Happy:   return "Happy";
+        case Mood::Neutral: return "Neutral";
+        case Mood::Sad:     return "Sad";
+    }
+    return "Unknown";
+}
+
+Mood stringToMood(const std::string& mood)
+{
+    if (mood == "Happy")
     {
         return Mood::Happy;
-
     }
-    else if(mood == "Neutral")
+    if (mood == "Neutral")
     {
         return Mood::Neutral;
     }
-    else if(mood == "Sad")
+    if (mood == "Sad")
     {
         return Mood::Sad;
     }
-    else
-    {
-        std::cout<<"Mood Unknown."<<std::endl;
-    }
- 
+
+    //Every path has to return a value. Falling off the end of this function
+    //was undefined behaviour whenever the stored text did not match.
+    std::cerr << "Unknown mood '" << mood << "', defaulting to Neutral." << std::endl;
+    return Mood::Neutral;
 }
 
-std::string getFormattedTime()
+void JournalEntry::display() const
 {
-    return std::string();
+    //id is the real SQLite rowid, so it is printed as-is rather than offset by one.
+    std::cout << "-----Journal Entry #" << id << "-----" << std::endl;
+    std::cout << "Time: [ " << time << " ]" << std::endl;
+    std::cout << "Mood: [ " << moodToString(mood) << " ]" << std::endl;
+    std::cout << "Entry:\n" << content << std::endl;
+    std::cout << "-----Journal Entry End-----" << std::endl;
 }

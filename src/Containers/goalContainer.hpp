@@ -1,56 +1,33 @@
 #pragma once
+#include "entryFeature.hpp"
 #include "goalEntry.hpp"
-#include "feature.hpp"
-#include "entry.hpp"
-#include "inputUtils.hpp"
-#include <vector>
-
-#include "imgui.h"
-#include "backends/imgui_impl_glfw.h"
-#include "backends/imgui_impl_opengl3.h"
-#include <GLFW/glfw3.h>
-
-#include "goalStorage.hpp"
 
 /*
-    The GoalContainer class handles:
-    GoalStorage use and access (Goals sql table)
-    holding goalEntrys through entryContainer vector
-    handling GUI implementation.
-    TermUI implementation
+    GoalContainer
+    The Goals screen. Everything structural -- holding the entries, saving,
+    loading, the list, the delete box, the back button -- comes from
+    EntryFeature<GoalEntry>. What is left here is only what makes Goals
+    different from any other entry screen: the wording, the name field, and
+    how a goal is built and drawn.
 */
-class GoalContainer: public Feature
+class GoalContainer : public EntryFeature<GoalEntry>
 {
 public:
-    GoalContainer(GoalStorage& store) : storage(store)
-    {
+    explicit GoalContainer(Table<GoalEntry>& store) : EntryFeature<GoalEntry>(store) {}
 
-    }
+    std::string name() const override;
 
-    std::string name()const override;
-    void addEntry(const GoalEntry& entry);
-    std::vector<GoalEntry>& getEntryCon();
-    int getBackID()const;
-    bool removeEntry(int id);
-    bool render()override;
-    //saves entry to the db storage.
-    bool saveEntry(GoalEntry& entry);
-    bool loadStorage()override;
+protected:
+    std::string title() const override;
+    std::string subtitle() const override;
+    std::string entryNoun() const override;
 
+    void drawEditor() override;
+    GoalEntry buildEntry() const override;
+    void clearEditor() override;
+    void drawEntry(const GoalEntry& entry) const override;
 
 private:
-    std::vector<GoalEntry> entryContainer;
-    GoalStorage& storage;
-    //journal variables GUI
-    char contentBuffer[1024] = "";
-    char contentBuffer2[1024] = "";
-
-    bool showEntries = false;
-    bool showDeleteMenu = false;
-
-
-
-
+    //Goals have a name on top of the shared content box.
+    char nameBuffer[128] = "";
 };
-
-
